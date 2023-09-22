@@ -317,7 +317,7 @@ export function makeMultipliers() {
   };
 
   // Create an array with 8 ones and 12 negative ones
-  let outcomeArray = Array(18).fill(-1);
+  let outcomeArray = Array(2).fill(-1);
   outcomeArray.push(1);
   let failureIdx = 3 * (Math.floor(Math.random() * 3 + 1));
   outcomeArray.splice(failureIdx, 0, 1);
