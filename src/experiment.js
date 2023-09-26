@@ -15,7 +15,7 @@ const args = await readYaml('configs/default.yaml');
 
 // obtain subject id and assign their group condition t  
 const subject_id = jsPsych.randomization.randomID(10);
-const streakType = ['binary streak', 'continuous streak'][Math.floor(Math.random() * 2)];
+const streakType = ['inverse streak', 'binary streak', 'continuous streak'][Math.floor(Math.random() * 3)];
 args.condition = jsPsych.randomization.repeat([streakType, 'binary'], 1);
 console.log(args.condition);
 

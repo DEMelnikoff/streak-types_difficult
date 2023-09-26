@@ -306,21 +306,31 @@ export function exportData(data) {
 
 export function makeMultipliers() {
 
-  function shuffleArray(array) {
-
-    // Fisher-Yates shuffle algorithm
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+  function geometricRandom(p) {
+    return Math.floor(Math.log(Math.random()) / Math.log(1 - p));
   };
 
-  // Create an array with e ones and 12 negative ones
-  let outcomeArray = Array(2).fill(-1);
-  outcomeArray.push(1);
-  let failureIdx = 3 * (Math.floor(Math.random() * 3 + 1));
-  outcomeArray.splice(failureIdx, 0, 1);
+  const probabilityOfSuccess = 0.1; // Adjust this probability as needed
+  const numTrials = 2; // Number of random values to generate
+  let geomArray = [];
+  let geomArray_sum;
+  let geomArray_max;
+
+  while (geomArray_sum != 18 || geomArray_max >= 14) {
+    geomArray = [];
+    for (let i = 0; i < numTrials; i++) {
+        geomArray.push(geometricRandom(probabilityOfSuccess));
+      };
+    geomArray_sum = geomArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    geomArray_max = Math.max(...geomArray);
+  };
+
+  let outcomeArray = Array(geomArray[0]).fill(1);
+  outcomeArray.push(-1);
+  outcomeArray.push(...Array(geomArray[1]).fill(1));
+  outcomeArray.push(-1);
+
+  console.log(outcomeArray);
 
   return outcomeArray;
 

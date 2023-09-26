@@ -117,7 +117,7 @@ export function renderPlugin({
 
 
 export function bonusInstruction({
-    instruction = undefined, example = undefined, questions = [], condition = "",
+    instruction = undefined, example = undefined, questions = [], questions_inv = [], condition = "",
     randomize_order = true, data = {}, feedback_success = "success", feedback_failure = "failure",
 } = {}) {
 
@@ -139,47 +139,6 @@ export function bonusInstruction({
             </div>
         </div>`;
 
-    pages.push(page_success);
-
-    const page_success_binary = `<div><p class=instruction-title>Then you'll see that you won a 5 cent bonus:</p></div>
-        <div class="bonus-1" style="margin: 40px 0px">
-            <div class="feedback-container">
-                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>You reached the target score!</p><span style="font-size: 75px; line-height:90px">+5</span></div>
-            </div>
-        </div>`;
-
-    const page_success_cStrk = `<div><p class=instruction-title>Then you'll see the length of your current streak.<br>For example, after three consecutive completions, you'll see:</p></div>
-        <div class="bonus-1" style="margin: 40px 0px">
-            <p>You reached the target score!</p>Current Streak: 3
-        </div>`;
-
-    const page_success_bStrk = [`<div><p class=instruction-title>Then you'll see the length of your current streak.<br>For example, after one completion, you'll see:</p></div>
-        <div class="bonus-1" style="margin: 40px 0px">
-            <p>You reached the target score!</p>Current Streak: 1/3
-        </div>`,
-
-        `<div><p class=instruction-title>After two completions, you'll see:</p></div>
-        <div class="bonus-1" style="margin: 40px 0px">
-            <p>You reached the target score!</p>Current Streak: 2/3
-        </div>`,
-
-        `<div><p class=instruction-title>After three completions, you'll see that you won a 15 cent bonus:</p></div>
-        <div class="bonus-1" style="margin: 40px 0px">
-            <div class="feedback-container">
-                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>You got a streak of 3!</p><span style="font-size: 75px; line-height:90px">+15</span></div>
-            </div>
-        </div>`];
-
-    if (condition == "binary streak") {
-        pages.push(...page_success_bStrk)
-    } else if (condition == "continuous streak") {
-        pages.push(page_success_cStrk) 
-    } else if (condition == "binary") {
-        pages.push(page_success_binary)
-    };
-
     const page_fail = `<div><p class=instruction-title>If you score <b><span id='current-number'>188</span></b> and the target score is <b><span id='target-number'>200</span></b>, you'll see:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
             <div class="bonus-2">
@@ -191,8 +150,6 @@ export function bonusInstruction({
                 <div class="bonus-4" style="color: red"><span id="target-number">200</span></div>
             </div>
         </div>`;
-
-    pages.push(page_fail);
 
     const page_fail_binary = `<div><p class=instruction-title>Then you'll see that you failed to win a bonus:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
@@ -208,12 +165,17 @@ export function bonusInstruction({
         <p>Your streak was less than 3.</p><span style="font-size: 75px; line-height:90px; font-weight: bold">+0</span>
         </div></div></div>`;
 
+    const page_fail_iStrk = `<div><p class=instruction-title>Then you'll see how many attempts you've made without reaching the target score.<br>For example, after three attempts without reaching the target score, you'll see:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <p>You missed the target score.</p>Total Attempts: 3
+        </div>`;
+
     const page_fail_cStrk = [`<div><p class=instruction-title>Then you'll see how much money you earned from your steak.<br>
-        For example, if you miss the target score after achieving a streak of three, you'll see:</p></div>
+        For example, if you miss the target score after achieving a streak of three, you'll see that you won 30 cents:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
             <div class="feedback-container">
                 <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>Your streak was 3</p><span style="font-size: 75px; line-height:90px">+15</span></div>
+                <div class="feedback-text"><p>Your streak was 3</p><span style="font-size: 75px; line-height:90px">+30</span></div>
             </div>
         </div>`,
 
@@ -225,13 +187,71 @@ export function bonusInstruction({
         <p>Your streak was 0</p><span style="font-size: 75px; line-height:90px; font-weight: bold">+0</span>
         </div></div></div>`];
 
-    if (condition == "binary streak") {
-        pages.push(page_fail_bStrk)
-    } else if (condition == "continuous streak") {
-        pages.push(...page_fail_cStrk) 
-    } else if (condition == "binary") {
-        pages.push(page_fail_binary)
-    };
+
+    const page_success_binary = `<div><p class=instruction-title>Then you'll see that you won 10 cents:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <div class="feedback-container">
+                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
+                <div class="feedback-text"><p>You reached the target score!</p><span style="font-size: 75px; line-height:90px">+10</span></div>
+            </div>
+        </div>`;
+
+    const page_success_cStrk = `<div><p class=instruction-title>Then you'll see the length of your current streak.<br>For example, after three consecutive completions, you'll see:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <p>You reached the target score!</p>Current Streak: 3
+        </div>`;
+
+    const page_success_iStrk = `<div><p class=instruction-title>Then you'll see that you won 20 cents minus your number of attempts.<br>For example, if you reach the target score on your 5th attempt, you'll see that you won 15 cents:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <div class="feedback-container">
+                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
+                <div class="feedback-text"><p>You succeeded on your 5th attempt!</p><span style="font-size: 75px; line-height:90px">+15</span></div>
+            </div>
+        </div>`;
+
+    const page_success_bStrk = [`<div><p class=instruction-title>Then you'll see the length of your current streak.<br>For example, after one completion, you'll see:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <p>You reached the target score!</p>Current Streak: 1/3
+        </div>`,
+
+        `<div><p class=instruction-title>After two completions, you'll see:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <p>You reached the target score!</p>Current Streak: 2/3
+        </div>`,
+
+        `<div><p class=instruction-title>After three completions, you'll see that you won 30 cents:</p></div>
+        <div class="bonus-1" style="margin: 40px 0px">
+            <div class="feedback-container">
+                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
+                <div class="feedback-text"><p>You got a streak of 3!</p><span style="font-size: 75px; line-height:90px">+30</span></div>
+            </div>
+        </div>`];
+
+
+    if (condition == 'inverse streak') {
+        pages.push(page_fail);
+        pages.push(page_fail_iStrk);
+        pages.push(page_success);
+        pages.push(page_success_iStrk)
+    } else {
+        pages.push(page_success);
+        if (condition == "binary streak") {
+            pages.push(...page_success_bStrk)
+        } else if (condition == "continuous streak") {
+            pages.push(page_success_cStrk) 
+        } else if (condition == "binary") {
+            pages.push(page_success_binary)
+        } 
+        pages.push(page_fail);
+        if (condition == "binary streak") {
+            pages.push(page_fail_bStrk);
+        } else if (condition == "continuous streak") {
+            pages.push(...page_fail_cStrk) 
+        } else if (condition == "binary") {
+            pages.push(page_fail_binary);
+        } 
+    }
+
 
     /*
     example.title.forEach( (title, index) => {
@@ -252,15 +272,29 @@ export function bonusInstruction({
 
     const comprehension = {
         type: SurveyMultiChoicePlugin,
-        questions: questions.map(x => ({ ...x, required: true })),
+        questions: function () {
+            if (condition == "inverse streak") {
+                return questions_inv.map(x => ({ ...x, required: true }))
+            } else {
+                return questions.map(x => ({ ...x, required: true }))
+            }
+        },
         randomize_question_order: randomize_order,
         on_finish: function (data) {
             let { Q0, Q1, Q2 } = data.response;
-            data.pass = correct = [
-                Q0.includes("At least"),
-                Q1.startsWith(condition === "binary streak" ? '0' : '10'),
-                Q2.startsWith('15')
-            ].every(Boolean)
+            if (condition == 'inverse streak') {
+                data.pass = correct = [
+                    Q0.includes("At least"),
+                    Q1.startsWith('17'),
+                    Q2.startsWith('5')
+                ].every(Boolean)
+            } else {
+                data.pass = correct = [
+                    Q0.includes("At least"),
+                    Q1.startsWith(condition === "binary streak" ? '0' : '10'),
+                    Q2.startsWith('30')
+                ].every(Boolean)                
+            };
         },
     };
 
@@ -470,7 +504,8 @@ export class bonusPhase extends practicePhase {
         this.trial_i = first_trial_num;
         this.reward_agent = (condition === "binary") ?
             new Binary() : (condition === "continuous streak") ?
-            new ContinuousStreak() : new BinaryStreak()
+            new ContinuousStreak() : (condition === "binary streak") ?
+            new BinaryStreak() : new InverseStreak();
     }
 
     on_timeline_start() {
@@ -607,7 +642,7 @@ class Binary {
         //return `Bonus: + $${this.bonus.toFixed(2)}`;
     }
     score(success){
-        return success? 5 : 0
+        return success? 10 : 0
     }
     get property(){
         return {
@@ -627,27 +662,23 @@ class InverseStreak extends Binary {
         this.streak_sofar = this.streak;
         this.bonus = this.score(success);
         // show streak length when increase or initiate a streak
-        if(success){
+        if (success) {
+            this.overall_bonus += this.bonus;
+            this.streak = 0;
+            let abbrev = (this.streak_sofar == 0) ? 'st' : 
+            (this.streak_sofar == 1) ? 'nd' : 
+            (this.streak_sofar == 2) ? 'rd' : 'th'
+            return `<div class="feedback-container">
+            <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
+            <div class="feedback-text"><p>You succeeded on your ${this.streak_sofar + 1}${abbrev} attempt!</p><span style="font-size: 75px; line-height:90px">+${this.bonus}</span></div>
+            </div>`
+        } else {
             this.streak += 1;
             return `<p>You missed the target score.</p>Total Attempts: ${this.streak}`;        
-        // show bonus information only when break a streak, show streak length when cannot initiate
-        } else {
-            this.overall_bonus += this.bonus;
-            if (this.streak_sofar === 0){
-                // fail to initiate, after a failure
-                return `<p>You reached the target score on 1 try!</p><span style="font-size: 75px; line-height:90px; font-weight: bold">+0</span>`;
-            } else {
-                // break a streak
-                this.streak = 0;
-                return `<div class="feedback-container">
-                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>You reached the target score on ${this.streak_sofar} try!</p><span style="font-size: 75px; line-height:90px">+${this.bonus}</span></div>
-                </div>`
-            }
         };
     }
     score(succcess){
-        return succcess? 0 : this.streak_sofar*5
+        return succcess ? 20 - (this.streak_sofar + 1) : 0;
     }
 }
 
@@ -681,7 +712,7 @@ class ContinuousStreak extends Binary {
         };
     }
     score(succcess){
-        return succcess? 0 : this.streak_sofar*5
+        return succcess? 0 : this.streak_sofar * 10
     }
 }
 
@@ -717,6 +748,6 @@ class BinaryStreak extends ContinuousStreak {
         }
     }
     score(success){
-        return !success? 0 : ((this.streak_sofar+1)===3) ? 15 : 0
+        return !success? 0 : ((this.streak_sofar+1)===3) ? 30 : 0
     }
 }
