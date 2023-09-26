@@ -617,6 +617,40 @@ class Binary {
     }
 }
 
+class InverseStreak extends Binary {
+
+    constructor() {
+        super();
+        this.streak = this.streak_sofar;
+    }
+    step(success) {
+        this.streak_sofar = this.streak;
+        this.bonus = this.score(success);
+        // show streak length when increase or initiate a streak
+        if(success){
+            this.streak += 1;
+            return `<p>You missed the target score.</p>Total Attempts: ${this.streak}`;        
+        // show bonus information only when break a streak, show streak length when cannot initiate
+        } else {
+            this.overall_bonus += this.bonus;
+            if (this.streak_sofar === 0){
+                // fail to initiate, after a failure
+                return `<p>You reached the target score on 1 try!</p><span style="font-size: 75px; line-height:90px; font-weight: bold">+0</span>`;
+            } else {
+                // break a streak
+                this.streak = 0;
+                return `<div class="feedback-container">
+                <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
+                <div class="feedback-text"><p>You reached the target score on ${this.streak_sofar} try!</p><span style="font-size: 75px; line-height:90px">+${this.bonus}</span></div>
+                </div>`
+            }
+        };
+    }
+    score(succcess){
+        return succcess? 0 : this.streak_sofar*5
+    }
+}
+
 class ContinuousStreak extends Binary {
 
     constructor() {
