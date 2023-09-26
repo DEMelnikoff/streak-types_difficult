@@ -5,7 +5,7 @@ import jsPsychPipe from '@jspsych-contrib/plugin-pipe';
 import jsPsychSurveyLikert from '@jspsych/plugin-survey-likert';
 import jsPsychSurveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 
-import { readYaml, checkEmpty, fullScreenHandler, exportData, JSON2CSV} from "./utils";
+import { readYaml, checkEmpty, fullScreenHandler, exportData, JSON2CSV, makeMultipliers } from "./utils";
 import {practicePhase, renderPlugin, bonusInstruction, bonusPhase, DICT} from "./jspsych-typing";
 
 
@@ -17,7 +17,10 @@ const args = await readYaml('configs/default.yaml');
 const subject_id = jsPsych.randomization.randomID(10);
 const streakType = ['inverse streak', 'binary streak', 'continuous streak'][Math.floor(Math.random() * 3)];
 args.condition = jsPsych.randomization.repeat([streakType, 'binary'], 1);
-console.log(args.condition);
+const multiplierArray1 = makeMultipliers(args.condition[0]);
+const multiplierArray2 = makeMultipliers(args.condition[1]);
+args.multiplierArray = multiplierArray1.concat(multiplierArray2);
+console.log(args.condition, args.multiplierArray);
 
 let PROLIFIC_PID = jsPsych.data.getURLVariable("PROLIFIC_PID");
 if (!PROLIFIC_PID) { PROLIFIC_PID = 0}
@@ -114,7 +117,7 @@ timeline.push( new practicePhase(args.practice).getTrial() )
 timeline.push( bonusInstruction({condition: args.condition[0], ...args.bonus_instruction}))
 
 // bonus phase trials start here (first)
-timeline.push( new bonusPhase({condition: args.condition[0], ...args.bonus, first_trial_num: 0}).getTrial() )
+timeline.push( new bonusPhase({condition: args.condition[0], ...args.bonus, first_trial_num: 0, multiplierArray: args.multiplierArray}).getTrial() )
 
 timeline.push( new MakeFlowQs('first') );
 timeline.push( new MakeEnjoyQs('first') );
@@ -123,7 +126,7 @@ timeline.push( new MakeEnjoyQs('first') );
 timeline.push( bonusInstruction({condition: args.condition[1], ...args.bonus_instruction_2}))
 
 // bonus phase trials start here (second)
-timeline.push( new bonusPhase({condition: args.condition[1], ...args.bonus, first_trial_num: 20}).getTrial() )
+timeline.push( new bonusPhase({condition: args.condition[1], ...args.bonus, first_trial_num: 20, multiplierArray: args.multiplierArray}).getTrial() )
 
 timeline.push( new MakeFlowQs('second') );
 timeline.push( new MakeEnjoyQs('second') );
@@ -136,13 +139,13 @@ const survey_start = (trial) => {
     const data = jsPsych.data.get();
     const successArray = data.filter({phase: 'bonus'}).select('success').values;
     const totalSuccess_1 = successArray.slice(0, 20).reduce((a,b)=>a+b,0);
-    const totalSuccess_2 = successArray.slice(19, 40).reduce((a,b)=>a+b,0);
+    const totalSuccess_2 = successArray.slice(20, 40).reduce((a,b)=>a+b,0);
     const totalSuccess = totalSuccess_1 + totalSuccess_2;
     const threesArray = data.filter({phase: 'bonus_feedback_score'}).select('bonus').values;
     const totalThrees_1 = threesArray.slice(0, 20).reduce((a,b)=>a+b,0);
-    const totalThrees_2 = threesArray.slice(19, 40).reduce((a,b)=>a+b,0);
-    let totalBonus_1 = (totalSuccess_1 * 5) / 100;
-    let totalBonus_2 = (totalSuccess_2 * 5) / 100;
+    const totalThrees_2 = threesArray.slice(20, 40).reduce((a,b)=>a+b,0);
+    let totalBonus_1 = (totalSuccess_1 * 20) / 100;
+    let totalBonus_2 = (totalSuccess_2 * 20) / 100;
     if (args.condition[0] == 'binary streak') { totalBonus_1 = totalThrees_1 / 100 };
     if (args.condition[1] == 'binary streak') { totalBonus_2 = totalThrees_2 / 100 };
     const totalBonus = totalBonus_1 + totalBonus_2;
@@ -178,12 +181,12 @@ jsPsych.opts.on_finish = () => {
     const data = jsPsych.data.get();
     const successArray = data.filter({phase: 'bonus'}).select('success').values;
     const totalSuccess_1 = successArray.slice(0, 20).reduce((a,b)=>a+b,0);
-    const totalSuccess_2 = successArray.slice(19, 40).reduce((a,b)=>a+b,0);
+    const totalSuccess_2 = successArray.slice(20, 40).reduce((a,b)=>a+b,0);
     const threesArray = data.filter({phase: 'bonus_feedback_score'}).select('bonus').values;
     const totalThrees_1 = threesArray.slice(0, 20).reduce((a,b)=>a+b,0);
-    const totalThrees_2 = threesArray.slice(19, 40).reduce((a,b)=>a+b,0);
-    let totalBonus_1 = (totalSuccess_1 * 5) / 100;
-    let totalBonus_2 = (totalSuccess_2 * 5) / 100;
+    const totalThrees_2 = threesArray.slice(20, 40).reduce((a,b)=>a+b,0);
+    let totalBonus_1 = (totalSuccess_1 * 20) / 100;
+    let totalBonus_2 = (totalSuccess_2 * 20) / 100;
     if (args.condition[0] == 'binary streak') { totalBonus_1 = totalThrees_1 / 100 };
     if (args.condition[1] == 'binary streak') { totalBonus_2 = totalThrees_2 / 100 };
     console.log(successArray, totalSuccess_1, totalSuccess_2, threesArray, totalThrees_1, totalThrees_2, totalBonus_1, totalBonus_2)

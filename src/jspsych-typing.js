@@ -1,4 +1,4 @@
-import { twoLetterPair, checkEmpty, createTable, calQuantile, makeMultipliers } from "./utils";
+import { twoLetterPair, checkEmpty, createTable, calQuantile } from "./utils";
 import HtmlKeyboardResponsePlugin from "@jspsych/plugin-html-keyboard-response";
 import PreloadPlugin from "@jspsych/plugin-preload";
 import SurveyMultiSelectPlugin from "@jspsych/plugin-survey-multi-select";
@@ -39,12 +39,6 @@ export const DICT = {
 * @param {html-element} display_html    - html element, i.e., the content of displayed stimulus
 * @param {function} end_trial   - a function to call before the end of this trial
 */
-
-const multiplierArray1 = makeMultipliers();
-const multiplierArray2 = makeMultipliers();
-const multiplierArray = multiplierArray1.concat(multiplierArray2);
-
-console.log(multiplierArray);
 
 function keypressCallback(info, response, trial, response_history, counter, display_html, end_trial) {
 
@@ -171,11 +165,11 @@ export function bonusInstruction({
         </div>`;
 
     const page_fail_cStrk = [`<div><p class=instruction-title>Then you'll see how much money you earned from your steak.<br>
-        For example, if you miss the target score after achieving a streak of three, you'll see that you won 30 cents:</p></div>
+        For example, if you miss the target score after achieving a streak of three, you'll see that you won 60 cents:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
             <div class="feedback-container">
                 <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>Your streak was 3</p><span style="font-size: 75px; line-height:90px">+30</span></div>
+                <div class="feedback-text"><p>Your streak was 3</p><span style="font-size: 75px; line-height:90px">+60</span></div>
             </div>
         </div>`,
 
@@ -188,11 +182,11 @@ export function bonusInstruction({
         </div></div></div>`];
 
 
-    const page_success_binary = `<div><p class=instruction-title>Then you'll see that you won 10 cents:</p></div>
+    const page_success_binary = `<div><p class=instruction-title>Then you'll see that you won 20 cents:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
             <div class="feedback-container">
                 <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>You reached the target score!</p><span style="font-size: 75px; line-height:90px">+10</span></div>
+                <div class="feedback-text"><p>You reached the target score!</p><span style="font-size: 75px; line-height:90px">+20</span></div>
             </div>
         </div>`;
 
@@ -201,11 +195,11 @@ export function bonusInstruction({
             <p>You reached the target score!</p>Current Streak: 3
         </div>`;
 
-    const page_success_iStrk = `<div><p class=instruction-title>Then you'll see that you won 20 cents minus your number of attempts.<br>For example, if you reach the target score on your 5th attempt, you'll see that you won 15 cents:</p></div>
+    const page_success_iStrk = `<div><p class=instruction-title>Then you'll see that you won 30 cents minus your number of attempts.<br>For example, if you reach the target score on your 5th attempt, you'll see that you won 25 cents:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
             <div class="feedback-container">
                 <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>You succeeded on your 5th attempt!</p><span style="font-size: 75px; line-height:90px">+15</span></div>
+                <div class="feedback-text"><p>You succeeded on your 5th attempt!</p><span style="font-size: 75px; line-height:90px">+25</span></div>
             </div>
         </div>`;
 
@@ -219,11 +213,11 @@ export function bonusInstruction({
             <p>You reached the target score!</p>Current Streak: 2/3
         </div>`,
 
-        `<div><p class=instruction-title>After three completions, you'll see that you won 30 cents:</p></div>
+        `<div><p class=instruction-title>After three completions, you'll see that you won 60 cents:</p></div>
         <div class="bonus-1" style="margin: 40px 0px">
             <div class="feedback-container">
                 <img src="https://raw.githubusercontent.com/dennislx/jspsych-typing/main/public/img/coins.jpg">
-                <div class="feedback-text"><p>You got a streak of 3!</p><span style="font-size: 75px; line-height:90px">+30</span></div>
+                <div class="feedback-text"><p>You got a streak of 3!</p><span style="font-size: 75px; line-height:90px">+60</span></div>
             </div>
         </div>`];
 
@@ -285,14 +279,14 @@ export function bonusInstruction({
             if (condition == 'inverse streak') {
                 data.pass = correct = [
                     Q0.includes("At least"),
-                    Q1.startsWith('17'),
-                    Q2.startsWith('5')
+                    Q1.startsWith('27'),
+                    Q2.startsWith('10')
                 ].every(Boolean)
             } else {
                 data.pass = correct = [
                     Q0.includes("At least"),
-                    Q1.startsWith(condition === "binary streak" ? '0' : '10'),
-                    Q2.startsWith('30')
+                    Q1.startsWith(condition === "binary streak" ? '0' : '40'),
+                    Q2.startsWith('60')
                 ].every(Boolean)                
             };
         },
@@ -485,7 +479,7 @@ function getDist(args){
 }
 
 export class bonusPhase extends practicePhase {
-    constructor({ numOfTrial = 1, fontsize = "", no_prompt = false, list = [], data = {}, target_dist = {}, target_min = 1, condition = undefined, feedback = undefined, early_stop = undefined, time = undefined, true_random = undefined, prob_win = undefined, first_trial_num = undefined} = {}) {
+    constructor({ numOfTrial = 1, fontsize = "", no_prompt = false, list = [], data = {}, target_dist = {}, target_min = 1, condition = undefined, feedback = undefined, early_stop = undefined, time = undefined, true_random = undefined, prob_win = undefined, first_trial_num = undefined, multiplierArray = undefined} = {}) {
         const {trial_time, fix_time, score_time, reward_time} = time;
         super({ numOfTrial: numOfTrial, trial_duration: trial_time, fixation_duration: fix_time, fontsize: fontsize, no_prompt: no_prompt, list: list, data: data });
         this.target_dist = getDist(target_dist);
@@ -502,6 +496,7 @@ export class bonusPhase extends practicePhase {
         this.multiplier = 1;
         this.delta = 20;
         this.trial_i = first_trial_num;
+        this.multiplierArray = multiplierArray;
         this.reward_agent = (condition === "binary") ?
             new Binary() : (condition === "continuous streak") ?
             new ContinuousStreak() : (condition === "binary streak") ?
@@ -531,18 +526,18 @@ export class bonusPhase extends practicePhase {
                 if (response.score <= this.delta) { 
                     this.multiplier = 1;
                 } else if (response.score == this.delta + 1) {                    
-                    this.multiplier = multiplierArray[this.trial_i - 1];
+                    this.multiplier = this.multiplierArray[this.trial_i - 1];
                 };
 
                 // compute new target score and, if true_random = true, make it the real target score 
                 let targetScore = response.score + (this.multiplier * this.delta);
                 if (this.true_random) { trial.data.target = targetScore };
-                if (this.trial_i == this.numOfTrial) { trial.data.target = response.score + this.delta }; // lose on last trial
+                //if (this.trial_i == this.numOfTrial) { trial.data.target = response.score + this.delta }; // lose on last trial
 
-                console.log(`Trial Number = ${this.trial_i}`);
+                //console.log(`Trial Number = ${this.trial_i}`);
 
                 if (response.score >= trial.data.target) {
-                    console.log("Success!")
+                    //console.log("Success!")
                     trial.data.success = true;
                     this.early_stop && end_trial(trial.data);
                 }
@@ -612,7 +607,7 @@ export class bonusPhase extends practicePhase {
                 ({bonus, streak} = this.reward_agent.property);
                 if (this.condition === "continuous streak" && this.trial_i === this.numOfTrial) {
                     // the bonus in the last round isn't counted when under this condition
-                    bonus = +(5 * this.reward_agent.streak);
+                    bonus = +(20 * this.reward_agent.streak);
                 }
             }
         });
@@ -642,7 +637,7 @@ class Binary {
         //return `Bonus: + $${this.bonus.toFixed(2)}`;
     }
     score(success){
-        return success? 10 : 0
+        return success? 20 : 0
     }
     get property(){
         return {
@@ -678,7 +673,7 @@ class InverseStreak extends Binary {
         };
     }
     score(succcess){
-        return succcess ? 20 - (this.streak_sofar + 1) : 0;
+        return succcess ? 30 - (this.streak_sofar + 1) : 0;
     }
 }
 
@@ -712,7 +707,7 @@ class ContinuousStreak extends Binary {
         };
     }
     score(succcess){
-        return succcess? 0 : this.streak_sofar * 10
+        return succcess? 0 : this.streak_sofar * 20
     }
 }
 
@@ -748,6 +743,6 @@ class BinaryStreak extends ContinuousStreak {
         }
     }
     score(success){
-        return !success? 0 : ((this.streak_sofar+1)===3) ? 30 : 0
+        return !success? 0 : ((this.streak_sofar+1)===3) ? 60 : 0
     }
 }

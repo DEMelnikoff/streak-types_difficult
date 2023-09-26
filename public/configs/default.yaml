@@ -183,7 +183,7 @@ consent:
 practice_p0: &p0 >
   <div class='instruction'> 
   <p><strong>What makes some activities more immersive and engaging than others?</strong></p>
-  <p>We're interested in why people feel effortlessly engaged in some activities (such as engrossing video games), but struggle to attend to other activities (like tedious chores).</p>
+  <p>We're interested in why people feel effortlessly engaged in some activities (such as engrossing video games), but struggle to focus on other activities (like tedious chores).</p>
   <p>To help us, you'll complete two different versions of a <strong>typing task</strong>. After each version, you'll report how immersed and engaged you felt.</p>
   <p>When you're ready to learn about the first version of the typing task, continue to the next page.</p>
   </div>
@@ -248,28 +248,28 @@ bonus_welcome_2_2: &i2_2 >
   </div>
 
 i_binary_streak: &ig1 >
-  In the first version of the typing task, bonus money is awarded for <b>streaks of three consecutive completions</b>. Specifically, each time you complete <b>three consecutive rounds</b>, you'll earn a <b>30 cent bonus</b>. 
+  In the first version of the typing task, bonus money is awarded for <b>streaks of three consecutive completions</b>. Specifically, each time you complete <b>three consecutive rounds</b>, you'll earn a <b>60 cent bonus</b>. 
 
 i_continuous_streak: &ig2 >
-  In the first version of the typing task, bonus money is awarded for <b>streaks of consecutive completions</b>. Specifically, for <b>every consecutive round you complete</b>, you'll earn a <b>10 cent bonus</b>. 
+  In the first version of the typing task, bonus money is awarded for <b>streaks of consecutive completions</b>. Specifically, for <b>every consecutive round you complete</b>, you'll earn a <b>20 cent bonus</b>. 
 
 i_binary_framing: &ig3 >
-  In the first version of the typing task, bonus money is awarded for <b>each individual completion</b>. For <b>each individual round you complete</b>, you'll earn a <b>10 cent bonus</b>. 
+  In the first version of the typing task, bonus money is awarded for <b>each individual completion</b>. For <b>each individual round you complete</b>, you'll earn a <b>20 cent bonus</b>. 
 
 i_inverse_framing: &ig4 >
-  In the first version of the typing task, bonus money is awarded for achieving completions in <b>as few attempts as possible</b>. For each round you complete, you'll earn <b>20 cents minus the number of attempts you took to achieve the completion</b>. 
+  In the first version of the typing task, bonus money is awarded for achieving completions in <b>as few attempts as possible</b>. For each round you complete, you'll earn <b>30 cents minus the number of attempts you took to achieve the completion</b>. 
 
 i_binary_streak_2: &ig1_2 >
-  In the second version of the typing task, bonus money is awarded for <b>streaks of three consecutive completions</b>. Specifically, each time you complete <b>three consecutive rounds</b>, you'll earn a <b>30 cent bonus</b>. 
+  In the second version of the typing task, bonus money is awarded for <b>streaks of three consecutive completions</b>. Specifically, each time you complete <b>three consecutive rounds</b>, you'll earn a <b>60 cent bonus</b>. 
 
 i_continuous_streak_2: &ig2_2 >
-  In the second version of the typing task, bonus money is awarded for <b>streaks of consecutive completions</b>. Specifically, for <b>every consecutive round you complete</b>, you'll earn a <b>10 cent bonus</b>. 
+  In the second version of the typing task, bonus money is awarded for <b>streaks of consecutive completions</b>. Specifically, for <b>every consecutive round you complete</b>, you'll earn a <b>20 cent bonus</b>. 
 
 i_binary_framing_2: &ig3_2 >
-  In the second version of the typing task, bonus money is awarded for <b>each individual completion</b>. For <b>each individual round you complete</b>, you'll earn a <b>10 cent bonus</b>. 
+  In the second version of the typing task, bonus money is awarded for <b>each individual completion</b>. For <b>each individual round you complete</b>, you'll earn a <b>20 cent bonus</b>. 
 
 i_inverse_framing_2: &ig4_2 >
-  In the second version of the typing task, bonus money is awarded for achieving completions in <b>as few attempts as possible</b>. For each round you complete, you'll earn <b>20 cents minus the number of attempts you took to achieve the completion</b>. 
+  In the second version of the typing task, bonus money is awarded for achieving completions in <b>as few attempts as possible</b>. For each round you complete, you'll earn <b>30 cents minus the number of attempts you took to achieve the completion</b>. 
 
 
 bonus_survey_question1: &q1
@@ -284,33 +284,33 @@ bonus_survey_question2: &q2
   prompt: If you complete the first two rounds in a row, then fail to complete the third round, you will have earned…
   options:
     - 0 cents
-    - 10 cents
     - 20 cents
-    - 30 cents
+    - 40 cents
+    - 60 cents
 
 bonus_survey_question3: &q3
   prompt: If you complete the first three rounds in a row, then fail to complete the fourth round, you will have earned…
   options:
     - 0 cents
-    - 10 cents
     - 20 cents
-    - 30 cents
+    - 40 cents
+    - 60 cents
 
 bonus_survey_question2_inv: &q2_inv
   prompt: If you achieve a completion on your 3rd attempt, you will have earned…
   options:
     - 0 cents
-    - 5 cents
-    - 17 cents
-    - 20 cents
+    - 10 cents
+    - 27 cents
+    - 30 cents
 
 bonus_survey_question3_inv: &q3_inv
-  prompt: If you achieve a completion on your 15th attempt, you will have earned…
+  prompt: If you achieve a completion on your 20th attempt, you will have earned…
   options:
     - 0 cents
-    - 5 cents
-    - 17 cents
-    - 20 cents
+    - 10 cents
+    - 27 cents
+    - 30 cents
 
 bonus_survey_success: &success >
   <p>You're ready to complete the first version of the typing task!<br>To begin, continue to the next screen.</p>

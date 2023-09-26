@@ -262,7 +262,6 @@ export function exportData(data) {
   const r_bonus = getRecord(data, 'bonus', 'round');
   const [{gender, age, suggest}] = data.filter({trial_type: 'survey-demo'}).select('responses').values;
   const [{date, subject_id: id, condition: cond, PROLIFIC_PID: PROLIFIC_PID, totalSuccess, totalSuccess_1, totalSuccess_2, totalBonus, game_1, game_2}] = data.last().values();
-  console.log( data.last().values() );
   const {absorbed_first, immersed_first, engaged_first, engrossed_first} = data.filter({trial_type: 'survey-likert'}).select('response').values[0];
   const {enjoyable_first, like_first, dislike_first, fun_first, entertaining_first} = data.filter({trial_type: 'survey-likert'}).select('response').values[1];
   const {absorbed_second, immersed_second, engaged_second, engrossed_second} = data.filter({trial_type: 'survey-likert'}).select('response').values[2];
@@ -304,7 +303,7 @@ export function exportData(data) {
   }
 };
 
-export function makeMultipliers() {
+export function makeMultipliers(condition) {
 
   function geometricRandom(p) {
     return Math.floor(Math.log(Math.random()) / Math.log(1 - p));
@@ -313,22 +312,39 @@ export function makeMultipliers() {
   const probabilityOfSuccess = 0.1; // Adjust this probability as needed
   const numTrials = 2; // Number of random values to generate
   let geomArray = [];
+  let outcomeArray;
   let geomArray_sum;
   let geomArray_max;
 
-  while (geomArray_sum != 18 || geomArray_max >= 14) {
-    geomArray = [];
-    for (let i = 0; i < numTrials; i++) {
-        geomArray.push(geometricRandom(probabilityOfSuccess));
-      };
-    geomArray_sum = geomArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-    geomArray_max = Math.max(...geomArray);
-  };
+  if (condition != 'inverse streak') {
+    while (geomArray_sum != 17 || geomArray_max >= 14) {
+      geomArray = [];
+      for (let i = 0; i < numTrials; i++) {
+          geomArray.push(geometricRandom(probabilityOfSuccess));
+        };
+      geomArray_sum = geomArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      geomArray_max = Math.max(...geomArray);
+    };
+    outcomeArray = Array(geomArray[0]).fill(1);
+    outcomeArray.push(-1);
+    outcomeArray.push(...Array(geomArray[1]).fill(1));
+    outcomeArray.push(-1);   
+    outcomeArray.push(1);
+  } else {
+    while (geomArray_sum != 18 || geomArray_max >= 14) {
+      geomArray = [];
+      for (let i = 0; i < numTrials; i++) {
+          geomArray.push(geometricRandom(probabilityOfSuccess));
+        };
+      geomArray_sum = geomArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+      geomArray_max = Math.max(...geomArray);
+    };
+    outcomeArray = Array(geomArray[0]).fill(1);
+    outcomeArray.push(-1);
+    outcomeArray.push(...Array(geomArray[1]).fill(1));
+    outcomeArray.push(-1);   
+  }
 
-  let outcomeArray = Array(geomArray[0]).fill(1);
-  outcomeArray.push(-1);
-  outcomeArray.push(...Array(geomArray[1]).fill(1));
-  outcomeArray.push(-1);
 
   console.log(outcomeArray);
 
