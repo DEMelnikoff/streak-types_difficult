@@ -32,7 +32,7 @@ jsPsych.data.addProperties({
     game_2: args.condition[1],
     sona_id: sona_id,
 });
-//console.log(`you are in group ${args.condition}`);
+//console.log(`you are in group ${args.conditi  on}`);
 
 
 // dv constructor functions
