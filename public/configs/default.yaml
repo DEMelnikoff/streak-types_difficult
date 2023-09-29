@@ -40,8 +40,8 @@ thank_you_msg: >
       <p>Thank you for participating!</p>
       <p>In total, you won <b>$${totalBonus}</b> in bonus money!</p>
       <br>
-      <p>Within one week, you will receive your bonus.</p>
-      <b>Please wait to be re-directed to Prolific.</b>
+      <p>Within one week, you'll receive your bonus by email in the form of an electronic Amazon gift card.</p>
+      <b>Please wait to be re-directed to Sona Systems.</b>
   </div>
 
 # ========= stimulus simulation =================================================
@@ -145,7 +145,10 @@ consent_page: &p1 >
       <dd>The purpose of the study is to understand people’s decisions and experiences over time. </dd>
 
       <dt>Procedures</dt>
-      <dd>If you choose to participate, you will be asked to complete a series of short tasks and answer some questions about it. The anticipated duration is indicated in the study description on the participant platform (Mturk; Prolific). </dd>
+      <dd>If you choose to participate, you will be asked to complete a series of short tasks and answer some questions about it. </dd>
+
+      <dt>Duration</dt>
+      <dd>This will take about 15-20 minutes.</dd>
 
       <dt>Risks</dt>
       <dd>There are no anticipated risks or discomforts from this research.</dd>
@@ -153,14 +156,11 @@ consent_page: &p1 >
       <dt>Benefits</dt>
       <dd>There are no anticipated benefits to you from this research.</dd>
 
-      <dt>Risks</dt>
-      <dd>There are no anticipated risks or discomforts from this research.</dd>
-
       <dt>Costs and Compensation</dt>
-      <dd>If you decide to participate there will be no additional cost to you and you will be compensated $1.60 for your participation, plus any bonus money you earn.</dd>
+      <dd>If you decide to participate there will be no additional cost to you. There is the opportunity to earn a small Amazon gift card.</dd>
 
       <dt>Participation</dt>
-      <dd>Taking part or not in this research study is your decision. You can decide to participate and then change your mind at any point.</dd>
+      <dd>Taking part or not in this research study is your decision. You can decide to participate and then change your mind at any point. If you choose not to participate or to terminate your participation before the study is over, you are free to go, but in place of this study your obligation will be to complete other research studies or papers to fulfill the Research Requirement for the course. Information regarding the Research Requirement, including specific details for its completion, was shared with you upon your registration in the subject pool and can be found here: https://sites.udel.edu/buadresearch/.</dd>
 
       <dt>Contact Information</dt>
       <dd>If you have any questions about the purpose, procedures, or any other issues related to this research study you may contact the Principal Investigator, Dr. Silverman, at jasilv@udel.edu. </dd>
