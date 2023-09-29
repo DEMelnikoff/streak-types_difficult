@@ -23,8 +23,8 @@ const multiplierArray2 = makeMultipliers(args.condition[1]);
 args.multiplierArray = multiplierArray1.concat(multiplierArray2);
 console.log(args.condition, args.multiplierArray);
 
-let PROLIFIC_PID = jsPsych.data.getURLVariable("PROLIFIC_PID");
-if (!PROLIFIC_PID) { PROLIFIC_PID = 0}
+let sona_id = jsPsych.data.getURLVariable("id");
+if (!sona_id) { sona_id = 0}
 
 jsPsych.data.addProperties({
     date: new Date(),
@@ -199,7 +199,8 @@ jsPsych.opts.on_finish = () => {
     const totalBonus = totalBonus_1 + totalBonus_2;
     document.body.innerHTML = args.thank_you_msg.replaceAll('${totalBonus}', totalBonus.toFixed(2));
     setTimeout(function() { 
-        location.href = `https://app.prolific.co/submissions/complete?cc=C1B3XSBB`
+        location.href = `https://udel-buad.sona-systems.com/webstudy_credit.aspx?experiment_id=503&credit_token=1c41109f97684d3a8c72d4c046f1854e&survey_code=${sona_id}`
     }, 3000); // 2 seconds
+
 }
 jsPsych.run(timeline);
