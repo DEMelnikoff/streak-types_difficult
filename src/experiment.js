@@ -157,6 +157,8 @@ const lastpage_start = (trial) => {
     trial.data = {
         totalBonus: totalBonus,
         totalSuccess: totalSuccess,
+        totalSuccess_1: totalSuccess_1,
+        totalSuccess_2: totalSuccess_2,
         phase: 'last_page',
         ...trial.data,
     }
