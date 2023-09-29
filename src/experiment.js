@@ -21,7 +21,6 @@ args.condition = jsPsych.randomization.repeat([streakType, 'binary'], 1);
 const multiplierArray1 = makeMultipliers(args.condition[0]);
 const multiplierArray2 = makeMultipliers(args.condition[1]);
 args.multiplierArray = multiplierArray1.concat(multiplierArray2);
-console.log(args.condition, args.multiplierArray);
 
 let sona_id = jsPsych.data.getURLVariable("id");
 if (!sona_id) { sona_id = 0}
@@ -31,9 +30,9 @@ jsPsych.data.addProperties({
     subject_id: subject_id,
     game_1: args.condition[0],
     game_2: args.condition[1],
-    PROLIFIC_PID: PROLIFIC_PID,
+    sona_id: sona_id,
 });
-console.log(`you are in group ${args.condition}`);
+//console.log(`you are in group ${args.condition}`);
 
 
 // dv constructor functions
@@ -184,23 +183,9 @@ jsPsych.opts.show_progress_bar = args.show_progress_bar;
 // $('div#jspsych-content').css({max-width: `${args.screenwidth} px`}); can achieve similar result
 jsPsych.opts.experiment_width = args.screenwidth;
 jsPsych.opts.on_finish = () => {
-    const data = jsPsych.data.get();
-    const successArray = data.filter({phase: 'bonus'}).select('success').values;
-    const totalSuccess_1 = successArray.slice(0, 20).reduce((a,b)=>a+b,0);
-    const totalSuccess_2 = successArray.slice(20, 40).reduce((a,b)=>a+b,0);
-    const threesArray = data.filter({phase: 'bonus_feedback_score'}).select('bonus').values;
-    const totalThrees_1 = threesArray.slice(0, 20).reduce((a,b)=>a+b,0);
-    const totalThrees_2 = threesArray.slice(20, 40).reduce((a,b)=>a+b,0);
-    let totalBonus_1 = (totalSuccess_1 * 20) / 100;
-    let totalBonus_2 = (totalSuccess_2 * 20) / 100;
-    if (args.condition[0] == 'binary streak') { totalBonus_1 = totalThrees_1 / 100 };
-    if (args.condition[1] == 'binary streak') { totalBonus_2 = totalThrees_2 / 100 };
-    console.log(successArray, totalSuccess_1, totalSuccess_2, threesArray, totalThrees_1, totalThrees_2, totalBonus_1, totalBonus_2)
-    const totalBonus = totalBonus_1 + totalBonus_2;
-    document.body.innerHTML = args.thank_you_msg.replaceAll('${totalBonus}', totalBonus.toFixed(2));
     setTimeout(function() { 
         location.href = `https://udel-buad.sona-systems.com/webstudy_credit.aspx?experiment_id=503&credit_token=1c41109f97684d3a8c72d4c046f1854e&survey_code=${sona_id}`
-    }, 3000); // 2 seconds
+    }, 500); // 2 seconds
 
 }
 jsPsych.run(timeline);

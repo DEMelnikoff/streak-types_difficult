@@ -261,7 +261,7 @@ export function exportData(data) {
   const r_prac = getRecord(data, 'practice', 'practice');
   const r_bonus = getRecord(data, 'bonus', 'round');
   const [{gender, age, suggest}] = data.filter({trial_type: 'survey-demo'}).select('responses').values;
-  const [{date, subject_id: id, condition: cond, sona_id: sona_id, email: email, totalSuccess, totalSuccess_1, totalSuccess_2, totalBonus, game_1, game_2}] = data.last().values();
+  const [{date, subject_id: id, condition: cond, sona_id: sona_id, response: {email: email}, totalSuccess, totalSuccess_1, totalSuccess_2, totalBonus, game_1, game_2}] = data.last().values();
   const {absorbed_first, immersed_first, engaged_first, engrossed_first} = data.filter({trial_type: 'survey-likert'}).select('response').values[0];
   const {enjoyable_first, like_first, dislike_first, fun_first, entertaining_first} = data.filter({trial_type: 'survey-likert'}).select('response').values[1];
   const {absorbed_second, immersed_second, engaged_second, engrossed_second} = data.filter({trial_type: 'survey-likert'}).select('response').values[2];
@@ -345,9 +345,6 @@ export function makeMultipliers(condition) {
     outcomeArray.push(...Array(geomArray[1]).fill(1));
     outcomeArray.push(-1);   
   }
-
-
-  console.log(outcomeArray);
 
   return outcomeArray;
 
