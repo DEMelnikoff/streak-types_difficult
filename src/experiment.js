@@ -136,7 +136,12 @@ timeline.push( new MakeEnjoyQs('second') );
 // debrief
 
 const survey_start = (trial) => {
-    trial.pages = [trial.pages];
+    trial.pages = [trial.pages]
+};
+
+timeline.push( renderPlugin({args: args.debrief, on_start: survey_start}) );
+
+const lastpage_start = (trial) => {
     const data = jsPsych.data.get();
     const successArray = data.filter({phase: 'bonus'}).select('success').values;
     const totalSuccess_1 = successArray.slice(0, 20).reduce((a,b)=>a+b,0);
@@ -152,15 +157,15 @@ const survey_start = (trial) => {
     const totalBonus = totalBonus_1 + totalBonus_2;
     trial.data = {
         totalBonus: totalBonus,
-        totalSuccess_1: totalSuccess_1,
-        totalSuccess_2: totalSuccess_2,
         totalSuccess: totalSuccess,
         phase: 'last_page',
         ...trial.data,
     }
+    trial.preamble = trial.preamble.replaceAll('${totalBonus}', totalBonus.toFixed(2));
 };
 
-timeline.push( renderPlugin({args: args.debrief, on_start: survey_start}));
+timeline.push( renderPlugin({args: args.lastpage, on_start: lastpage_start}) );
+
 
 // save data via DataPiepe
 args.pipe_data_to_osf && timeline.push({
@@ -173,7 +178,7 @@ args.pipe_data_to_osf && timeline.push({
         const clean_data = exportData(trial_data);
         return JSON2CSV([clean_data]);
     },
-})
+});
 
 jsPsych.opts.show_progress_bar = args.show_progress_bar;
 // $('div#jspsych-content').css({max-width: `${args.screenwidth} px`}); can achieve similar result
